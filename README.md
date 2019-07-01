@@ -1,4 +1,4 @@
-# SIJ是什么？
+# SIJ是什么?
 <div align="center">
 <img width="300" height="300" src="docs/images/语法树示例.png" />
 </div>
@@ -14,13 +14,13 @@ SIJ是Simple Interpreter implemented by Java(缩写)
 - 模块化 -> 看起来简单明了
 
 # 目录
-- [SIJ是什么？](#SIJ%E6%98%AF%E4%BB%80%E4%B9%88)
+- [SIJ是什么?](#SIJ%E6%98%AF%E4%BB%80%E4%B9%88)
 - [目录](#%E7%9B%AE%E5%BD%95)
 - [SIJ](#SIJ)
-  - [2. 我是怎么实现的？](#2-%E6%88%91%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84)
+  - [2. 我是怎么实现的?](#2-%E6%88%91%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84)
     - [2.1 词法分析器(Lexer) : 使用Lexer解析代码得到连串的Token](#21-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8Lexer--%E4%BD%BF%E7%94%A8Lexer%E8%A7%A3%E6%9E%90%E4%BB%A3%E7%A0%81%E5%BE%97%E5%88%B0%E8%BF%9E%E4%B8%B2%E7%9A%84Token)
       - [2.1.1 怎么实现一个Lexer](#211-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AALexer)
-    - [2.2 语法分析器: 从Lexer接受Token序列，分析出语法树](#22-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8-%E4%BB%8ELexer%E6%8E%A5%E5%8F%97Token%E5%BA%8F%E5%88%97%E5%88%86%E6%9E%90%E5%87%BA%E8%AF%AD%E6%B3%95%E6%A0%91)
+    - [2.2 语法分析器: 从Lexer接受Token序列,分析出语法树](#22-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8-%E4%BB%8ELexer%E6%8E%A5%E5%8F%97Token%E5%BA%8F%E5%88%97%E5%88%86%E6%9E%90%E5%87%BA%E8%AF%AD%E6%B3%95%E6%A0%91)
       - [2.2.1 分析方法](#221-%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95)
       - [2.2.2 语法树](#222-%E8%AF%AD%E6%B3%95%E6%A0%91)
     - [2.3 "运行"语法树](#23-%22%E8%BF%90%E8%A1%8C%22%E8%AF%AD%E6%B3%95%E6%A0%91)
@@ -28,11 +28,12 @@ SIJ是Simple Interpreter implemented by Java(缩写)
   - [4.我该怎么运行?](#4%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E8%BF%90%E8%A1%8C)
     - [4.1 通过Jar包](#41-%E9%80%9A%E8%BF%87Jar%E5%8C%85)
     - [4.2 编译代码](#42-%E7%BC%96%E8%AF%91%E4%BB%A3%E7%A0%81)
+    - [4.3 [可选] 安装GraphVIZ](#43-%E5%8F%AF%E9%80%89-%E5%AE%89%E8%A3%85GraphVIZ)
   - [5. 运行截图](#5-%E8%BF%90%E8%A1%8C%E6%88%AA%E5%9B%BE)
   - [6. ToDo:](#6-ToDo)
 
 # SIJ
-## 2. 我是怎么实现的？
+## 2. 我是怎么实现的?
 通过例子看看SIJ的实现原理
 假设我们有代码
 ```C++
@@ -70,7 +71,7 @@ Token就是代码中的基本单位,Lexer作用就是把一段代码切成有序
 |IntegerToken|".*?(\\d+).*?"|
 |DoubleToken|".*?(\\d+(\\.\\d*)?([eE][+-]?\\d*)?).*?"|
 
-其中，各个Token都有对应的Java类。大部分这些类只是起到一个标记的作用，小部分有具体功能.比如果说IntegerToken可以得到int形式的值  
+其中,各个Token都有对应的Java类.大部分这些类只是起到一个标记的作用,小部分有具体功能.比如果说IntegerToken可以得到int形式的值  
 下面是Token列表(树为继承关系)
 
 - Token
@@ -86,10 +87,10 @@ Token就是代码中的基本单位,Lexer作用就是把一段代码切成有序
 - - SplitOpToken: 分号
 
 具体请查文件夹[src/com/compilerExp/Token/](https://github.com/cyy5358/SIJ/tree/master/src/com/compilerExp/Token)下所有的.java代码
-### 2.2 语法分析器: 从Lexer接受Token序列，分析出语法树
+### 2.2 语法分析器: 从Lexer接受Token序列,分析出语法树
 
 #### 2.2.1 分析方法
-SIJ使用了递归下降分析法，通过EBNF可以非常简单明了的实现出来  
+SIJ使用了递归下降分析法,通过EBNF可以非常简单明了的实现出来  
 详细需要参考教材或者[维基百科](https://en.wikipedia.org/wiki/Recursive_descent_parser)  
 
 文法描述如下  
@@ -119,7 +120,7 @@ $TokenUnit \rightarrow −number | number |(ExpressionBegin)​$
 具体请看[src/com/compilerExp/component/RecursiveDescent](https://github.com/cyy5358/SIJ/blob/master/src/com/compilerExp/component/RecursiveDescent.java)
 
 #### 2.2.2 语法树
-一序列的Token序列，语法分析器分析出它们的组成结构  
+一序列的Token序列,语法分析器分析出它们的组成结构  
 > 'if', '(',  'a', '==', '1', ')', '{', 'a', '=', '2', '}', 'else', '{', 'a', '=', '3', '}' 
 
 ![exflow](docs/images/exampleFlow.png)  
@@ -127,20 +128,20 @@ $TokenUnit \rightarrow −number | number |(ExpressionBegin)​$
 $(if,condition,True-Statement,False-Statement)$,  
 可以这么描述它  
 $if \leftarrow (if,a==1,a=2,a=3)$  
-多元组可以通过广义表这个数据结构描述出来，广义表可以通过N-叉树描述. 这个N-叉树就是语法树  
+多元组可以通过广义表这个数据结构描述出来,广义表可以通过N-叉树描述. 这个N-叉树就是语法树  
 上述的文法都会产生对应的语法树
 具体请看文件夹[src/com/compilerExp/SyntaxTree](https://github.com/cyy5358/SIJ/tree/master/src/com/compilerExp/SyntaxTree)下的所有.java代码
 ### 2.3 "运行"语法树
-这是解释器，不是编译器，最终结果只是运行而不是生成二进制代码，所在在这一步我们直接运行语法树就行了.  
+这是解释器,不是编译器,最终结果只是运行而不是生成二进制代码,所在在这一步我们直接运行语法树就行了.  
 语法树该怎么运行? SIJ中定义的语法树都有exec的方法
 ```java
 void exec(Env env);
 ```
-它会执行相应的代码，其中Env是运行环境，提供变量存储、访问、修改等功能（以后版本中会实现函数功能，那个时候Env还有储存函数帧的动能）
+它会执行相应的代码,其中Env是运行环境,提供变量存储、访问、修改等功能（以后版本中会实现函数功能,那个时候Env还有储存函数帧的动能）
 具体请看文件夹[src/com/compilerExp/SyntaxTree](https://github.com/cyy5358/SIJ/tree/master/src/com/compilerExp/SyntaxTree)下的所有.java代码
 
 ### 2.4 语法树可视化
-仅提供API层次的功能。通过语法树生成的dot文件，可以使用GraphVIZ可视化语法树
+仅提供API层次的功能.通过语法树生成的dot文件,可以使用GraphVIZ可视化语法树
 
 API使用例子
 ```java 
@@ -169,7 +170,7 @@ API使用例子
 运行情况请看下面截图
 
 ## 4.我该怎么运行?
-可以下载jar包直接运行，或者编译源代码运行
+可以下载jar包直接运行,或者编译源代码运行
 ### 4.1 通过Jar包 
 1. 下载[jar包](https://github.com/cyy5358/SIJ/releases/download/1/SIJ.jar)
     ```bash
@@ -193,11 +194,14 @@ API使用例子
     ```bash
     java -classpath out com.compilerExp.CLI
     ```
+### 4.3 [可选] 安装GraphVIZ
+SIJ使用GraphVIZ作为可视化工具,可以通过官网下载[GraphVIZ](https://www.graphviz.org/),配合API使用
 ## 5. 运行截图
-每个语句都会输出一个数字，该数字代表着最后一次访问变量的值  
+每个语句都会输出一个数字,该数字代表着最后一次访问变量的值  
 1. 语法树可视化  
 <div align="center">
 <img width="300" height="300" src="docs/images/语法树示例.png" ></img></div>
+
 2. 变量定义  
 ![变量定义](docs/images/varDef.png)
 3. 表达式  
