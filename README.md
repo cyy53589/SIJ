@@ -2,9 +2,12 @@
 <div align="center">
 <img width="300" height="300" src="docs/images/语法树示例.png" />
 </div>
-一个用Java实现的、简单明了的解释器  
+一个用Java实现的、简单明了的解释器 
+
 SIJ是Simple Interpreter implemented by Java(缩写)
+
 特点
+
 - 实现简单明了
 - 语法树可视化 -> debug简单明了
 - 编译、运行错误下户线下划线提示 -> debug简单明了
@@ -43,14 +46,16 @@ else{
 ### 2.1 词法分析器(Lexer) : 使用Lexer解析代码得到连串的Token
 Token就是代码中的基本单位,Lexer作用就是把一段代码切成有序的Token序列  
 上述的代码会被切成序列
+
 > 'if', '(',  'a', '==', '1', ')', '{', 'a', '=', '2', '}', 'else', '{', 'a', '=', '3', '}'
 
 
-通过例子发现Lexer做了:
+通过例子发现Lexer做了:  
 - 忽略空格、换行符(\n)、制表符(\t)
 - 精准切割出最小基本单元: '=='号不会被切为两个'=',方便后面精准识别
 
 #### 2.1.1 怎么实现一个Lexer
+
 借助正则表达式实现一个Lexer非常简单,也容易修改
 具体实现请看代码[src/com/compilerExp/component/](https://github.com/cyy5358/SIJ/blob/master/src/com/compilerExp/component/RecursiveDescent.java)
 
@@ -65,8 +70,9 @@ Token就是代码中的基本单位,Lexer作用就是把一段代码切成有序
 |IntegerToken|".*?(\\d+).*?"|
 |DoubleToken|".*?(\\d+(\\.\\d*)?([eE][+-]?\\d*)?).*?"|
 
-其中，各个Token都有对应的Java类。大部分这些类只是起到一个标记的作用，小部分有具体功能.比如果说IntegerToken可以得到int形式的值
+其中，各个Token都有对应的Java类。大部分这些类只是起到一个标记的作用，小部分有具体功能.比如果说IntegerToken可以得到int形式的值  
 下面是Token列表(树为继承关系)
+
 - Token
 - - ArOpToken: 算数运算符
 - - LogOpToken: 逻辑运算符
@@ -81,9 +87,10 @@ Token就是代码中的基本单位,Lexer作用就是把一段代码切成有序
 
 具体请查文件夹[src/com/compilerExp/Token/](https://github.com/cyy5358/SIJ/tree/master/src/com/compilerExp/Token)下所有的.java代码
 ### 2.2 语法分析器: 从Lexer接受Token序列，分析出语法树
+
 #### 2.2.1 分析方法
 SIJ使用了递归下降分析法，通过EBNF可以非常简单明了的实现出来  
-详细需要参考教材或者[维基百科](https://en.wikipedia.org/wiki/Recursive_descent_parser)
+详细需要参考教材或者[维基百科](https://en.wikipedia.org/wiki/Recursive_descent_parser)  
 
 文法描述如下  
 
@@ -204,5 +211,5 @@ API使用例子
 
 ## 6. ToDo:
 - [x] 代码可视化：只是在代码层面提供了接口
-- [] 函数
-- [] 添加Double,String等类型
+- [ ] 添加函数功能
+- [ ] 添加Double,String等类型
