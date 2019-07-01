@@ -105,6 +105,7 @@ public class TreeRunEnv {
      * @throws SynTreeRuntimeException
      */
     public void assignOrCreate(IdentifierTree varName,int value)throws SynTreeRuntimeException{
+        lastOutput=String.valueOf(value);
         // 如果varName是数组下标索引
         if(varName.getIsArray()){
             if(arrayMap.containsKey(varName.getItdentifierToken().getValue())){
@@ -144,7 +145,9 @@ public class TreeRunEnv {
                         String.format("变量%s没有先定义",varName.getVariableName()));
             ArrayList<Integer> array = arrayMap.get(varName.getVariableName());
             checkIndex(array,varName.getIndex(this),varName.getItdentifierToken());
-            return array.get(varName.getIndex(this));
+            int forRet = array.get(varName.getIndex(this));
+            lastOutput = String.valueOf(forRet);
+            return forRet;
         }
         else{
             if(varName.getItdentifierToken().getValue().contentEquals("rand")){
@@ -155,7 +158,9 @@ public class TreeRunEnv {
                         varName.getItdentifierToken().getLineNumber(),
                         varName.getItdentifierToken().getRowNumber(),
                         String.format("变量%s没有先定义",varName.getVariableName()));
-            return variableMap.get(varName.getItdentifierToken().getValue());
+            int forRet =  variableMap.get(varName.getItdentifierToken().getValue());
+            lastOutput = String.valueOf(forRet);
+            return forRet;
         }
     }
 
@@ -174,6 +179,12 @@ public class TreeRunEnv {
         if(index<0 || index>=arrayList.size())
             throw new SynTreeRuntimeException(tokenResulting.getLineNumber(),tokenResulting.getRowNumber(),"数组越界");
     }
+    String getLastOutput(){
+        String forRet = lastOutput;
+        lastOutput="";
+        return forRet;
+    }
+    String lastOutput="";
     HashMap<String,Integer> variableMap;
     HashMap<String, ArrayList<Integer>> arrayMap;
     boolean hasEnd=false;

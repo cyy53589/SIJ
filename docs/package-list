@@ -1,7 +1,0 @@
-com.compilerExp
-com.compilerExp.Module
-com.compilerExp.SyntaxTree
-com.compilerExp.Token
-com.compilerExp.TreeRuntimeEnv
-com.compilerExp.component
-com.compilerExp.util

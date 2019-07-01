@@ -6,12 +6,14 @@ package com.compilerExp.Module;
 import com.compilerExp.TreeRuntimeEnv.DebugTreeRunEnv;
 import com.compilerExp.SyntaxTree.Tree;
 import com.compilerExp.TreeRuntimeEnv.TreeRunEnv;
+import com.compilerExp.Token.IdentifierToken;
 import com.compilerExp.Token.Token;
 import com.compilerExp.component.Lexer;
 import com.compilerExp.component.RecursiveDescent;
 import com.compilerExp.util.CompilerException;
 import com.compilerExp.util.GraphDrawer;
 import com.compilerExp.util.SynTreeRuntimeException;
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -25,53 +27,33 @@ import java.util.Scanner;
 public class CodeLine {
     /**
      *
-     * @param codeFile 策略代码文件
-     * @param lexer 特定的Lexer
+     * @param content 内容
      */
-    public CodeLine(File codeFile, Lexer lexer){
-        this.codeFile=codeFile;
-        this.strategyName=codeFile.getName();
-        this.lexer=lexer;
+    public CodeLine(String content){
+        this.contentInStr = content;
+        this.lexer = Lexer.getRegLexer();
+    }
+    /**
+     * @param content 内容
+     * @param Lexer lexer
+     */
+    public CodeLine(String content,Lexer lexer ){
+        this.contentInStr = content;
+        this.lexer = lexer;
     }
 
     /**
-     *
-     * @return 得到策略名字
-     */
-    public String getStrategyName(){return strategyName;}
-
-    /**
      * 编译策略
-     * @return 返回编译是否成
+     * @return 是否正常
      */
-    public boolean compile(){
+    public boolean compileAndRun(TreeRunEnv env) throws Exception{
         try {
-            content.clear();
-            content.add("[代码开始]");
-            Scanner sc = new Scanner(new FileInputStream(codeFile));
-            ArrayList<Token> tokenArrayList = new ArrayList<>();
-            int lineNumber=1;
-            while(sc.hasNextLine()){
-                String line = sc.nextLine();
-                content.add(line);
-                if(line.charAt(0)=='#'){
-                    lineNumber++; // 注释
-                }
-                else{
-                    tokenArrayList.addAll(lexer.analyse(line,lineNumber++));
-                }
-            }
+            ArrayList<Token> tokenArrayList = lexer.analyse(contentInStr,0);
             root = RecursiveDescent.run(tokenArrayList);
-        }catch (FileNotFoundException fileNot) {
-            errorLine="File Not Found";
-            errorMsg = fileNot.getMessage();
+            run(env);
         }catch (CompilerException e){
             errorLine=content.get(e.getErrorLine());
             errorMsg=getErrorWavyLine(e.getErrorRow()+1)+": "+e.getMessage();
-        }
-        catch (Exception e){
-            errorLine="IO Problem";
-            errorMsg=e.getMessage();
         }
         return root!=null;
     }
@@ -81,18 +63,12 @@ public class CodeLine {
      * @param env 运行环境
      * @return 返回运行是否成功
      */
-    public boolean run(TreeRunEnv env){
-        try {
+    private boolean run(TreeRunEnv env) throws Exception{
             root.exec(env);
             if(env instanceof DebugTreeRunEnv) {
                 writeOutPesudoCode(((DebugTreeRunEnv)env).getPseudocode());
             }
             return true;
-        }catch (SynTreeRuntimeException e){
-            errorLine=content.get(e.getErrorLine());
-            errorMsg=getErrorWavyLine(e.getErrorRow()+1)+": " +e.getMessage();
-            return false;
-        }
     }
 
     /**
@@ -112,39 +88,13 @@ public class CodeLine {
      * @param pesudoCode 伪代码
      */
     void writeOutPesudoCode(String pesudoCode){
-        String pesName = codeFile.getAbsolutePath();
-        if(codeFile.getName().endsWith(".cyy"))
-            pesName = pesName.substring(0,pesName.length()-4);
-        pesName=pesName+".pesudoCode";
+        String pesName = "pesName";
         try {
             PrintStream os=new PrintStream(new FileOutputStream(pesName,true));
             os.println(pesudoCode);
             os.close();
         }catch (Exception e){
         }
-    }
-
-    /**
-     * 重写equals.
-     * @param to 另外一个strategy
-     * @return 如果文件相同就返回true,不然就返回False
-     */
-    @Override
-    public boolean equals(Object to){
-        if(!(to instanceof CodeLine)){
-            return false;
-        }
-        CodeLine anStrategy=(CodeLine)to;
-        return this.codeFile.equals(anStrategy.codeFile);
-    }
-
-    /**
-     * 重写hashCode
-     * @return 返回codeFile的hashCode()
-     */
-    @Override
-    public int hashCode(){
-        return codeFile.hashCode();
     }
 
     String getErrorWavyLine(int row){
@@ -168,18 +118,9 @@ public class CodeLine {
      */
     public boolean isCompiled(){return root!=null;}
 
-    /**
-     *
-     * @return 得到策略代码文件
-     */
-    public File getCodeFile(){
-        return codeFile;
-    }
-
     Tree root=null;
-    String strategyName;
+    String contentInStr;
     String errorMsg,errorLine;
-    File codeFile;
     ArrayList<String> content = new ArrayList<>();
     Lexer lexer;
 }

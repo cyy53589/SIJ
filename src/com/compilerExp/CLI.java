@@ -1,7 +1,6 @@
 package com.compilerExp;
 
 import com.compilerExp.Module.CodeError;
-import com.compilerExp.Module.StrategyRankRecord;
 import com.compilerExp.component.ConfrontPlatform;
 
 import java.io.File;

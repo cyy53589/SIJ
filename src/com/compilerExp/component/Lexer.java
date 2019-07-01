@@ -3,7 +3,7 @@
  */
 package com.compilerExp.component;
 
-import com.compilerExp.Token.Token;
+import com.compilerExp.Token.*;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -111,5 +111,23 @@ public class Lexer {
         public Pattern getPattern() {
             return pattern;
         }
+    }
+    private static Lexer lexer;
+
+    static {
+        Lexer.RegWithLabel[] rules = new Lexer.RegWithLabel[]{
+                new Lexer.RegWithLabel(".*?([a-zA-Z_]+).*?", IdentifierToken.class),
+                new Lexer.RegWithLabel(".*?(=).*?", AssignOpToken.class),
+                new Lexer.RegWithLabel(".*?(;).*?", SplitOpToken.class),
+                new Lexer.RegWithLabel(".*?([\\(\\)\\[\\]\\{\\}]).*?", ParanToken.class),
+                new Lexer.RegWithLabel(".*?(>=|<=|==|>|<|!=|\\|\\||&&|\\!).*?", LogOpToken.class),
+                new Lexer.RegWithLabel(".*?([+\\-\\*/]).*?", ArOpToken.class),
+                new Lexer.RegWithLabel(".*?(\\d+).*?", IntegerToken.class),
+                new Lexer.RegWithLabel(".*?(\\d+(\\.\\d*)?([eE][+-]?\\d*)?).*?", DoubleToken.class)
+        };
+        lexer = new Lexer(rules);
+    }
+    static public Lexer getRegLexer(){
+        return lexer;
     }
 }
