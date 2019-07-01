@@ -10,9 +10,6 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class CLI  {
-    /**
-     *
-     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         TreeRunEnv env = new TreeRunEnv();

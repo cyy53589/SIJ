@@ -16,4 +16,7 @@ public class EndToken extends Token {
     public EndToken() {
         super("EOF", -1, -1);
     }
+    public EndToken(String value,int line,int row){
+        super(value,line,row);
+    }
 }

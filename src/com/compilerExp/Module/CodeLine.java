@@ -13,7 +13,6 @@ import com.compilerExp.component.RecursiveDescent;
 import com.compilerExp.util.CompilerException;
 import com.compilerExp.util.GraphDrawer;
 import com.compilerExp.util.SynTreeRuntimeException;
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class CodeLine {
             run(env);
         }catch (CompilerException e){
             //errorLine=content.get(e.getErrorLine());
-            errorMsg=getErrorWavyLine(e.getErrorRow()+1)+": "+e.getMessage();
+            errorMsg=getErrorWavyLine(e.getErrorRow()+2)+": "+e.getMessage();
         }catch (Exception e){
             errorMsg= e.getMessage();
         }
@@ -111,7 +110,7 @@ public class CodeLine {
      * @return 得到上一次的错误
      */
     public String getLastError(){
-        return String.format("%s\n%s",errorLine,errorMsg);
+        return errorMsg;
     }
 
     /**

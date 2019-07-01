@@ -59,7 +59,8 @@ public class RecursiveDescent {
             }
             return forRet;
         }
-        //throw new RecursiveDescentException(getToken().getLineNumber(), getToken().getRowNumber(), "无法识别该语句:非法开头");
+        // throw new RecursiveDescentException(getToken().getLineNumber(),
+        // getToken().getRowNumber(), "无法识别该语句:非法开头");
     }
 
     static ArrayCreatementTree CreateArray() throws RecursiveDescentException {
@@ -83,7 +84,8 @@ public class RecursiveDescent {
      *
      * @throws RecursiveDescentException
      */
-    static Pair<ArrayList<ExpressionTree>, StatementsTree> ControlBlock(int paramsNum) throws RecursiveDescentException {
+    static Pair<ArrayList<ExpressionTree>, StatementsTree> ControlBlock(int paramsNum)
+            throws RecursiveDescentException {
         ArrayList<ExpressionTree> expressionTrees = new ArrayList<>();
         ArrayList<Tree> trees = new ArrayList<>();
         if (!match(ParanToken.class, "(")) {
@@ -92,7 +94,8 @@ public class RecursiveDescent {
         expressionTrees.add(Expression());
         for (int i = 1; i < paramsNum; ++i) {
             if (!match(SplitOpToken.class, ";")) {
-                throw new RecursiveDescentException(getToken().getLineNumber(), getToken().getRowNumber(), "此处需要符号\";\"");
+                throw new RecursiveDescentException(getToken().getLineNumber(), getToken().getRowNumber(),
+                        "此处需要符号\";\"");
             }
             expressionTrees.add(Expression());
         }
@@ -126,7 +129,8 @@ public class RecursiveDescent {
             if (lastMatchToken instanceof EndToken) {
                 throw new RecursiveDescentException(getToken().getLineNumber(), getToken().getRowNumber(), "需要符号\"}\"");
             }
-            return new IfStatementTree(controlBlock.getKey().get(0), controlBlock.getValue(), new StatementsTree(trees));
+            return new IfStatementTree(controlBlock.getKey().get(0), controlBlock.getValue(),
+                    new StatementsTree(trees));
         }
         return new IfStatementTree(controlBlock.getKey().get(0), controlBlock.getValue(), null);
     }
@@ -141,7 +145,8 @@ public class RecursiveDescent {
         match(IdentifierToken.class, "for");
         Pair<ArrayList<ExpressionTree>, StatementsTree> controlBlock = ControlBlock(3);
         ExpressionTree[] conditions = new ExpressionTree[3];
-        for (int i = 0; i < 3; ++i) conditions[i] = controlBlock.getKey().get(i);
+        for (int i = 0; i < 3; ++i)
+            conditions[i] = controlBlock.getKey().get(i);
         return new ForStatementTree(conditions, controlBlock.getValue());
     }
 
@@ -156,14 +161,10 @@ public class RecursiveDescent {
     }
 
     static ExpressionTree Expression() throws RecursiveDescentException {
-        if ((
-                LogOpToken.class.isInstance(getToken()) && getToken().getValue().contentEquals("!")
-                        || IntegerToken.class.isInstance(getToken())
-                        || (ParanToken.class.isInstance(getToken()) && getToken().getValue().contentEquals("(")
-                        || (getToken() instanceof IdentifierToken)
-                )
-        )
-        ) {
+        if ((LogOpToken.class.isInstance(getToken()) && getToken().getValue().contentEquals("!")
+                || IntegerToken.class.isInstance(getToken())
+                || (ParanToken.class.isInstance(getToken()) && getToken().getValue().contentEquals("(")
+                        || (getToken() instanceof IdentifierToken)))) {
             return Assignment();
         }
         throw new RecursiveDescentException(getToken().getLineNumber(), getToken().getRowNumber(), "此处应该出现表达式");
@@ -218,9 +219,8 @@ public class RecursiveDescent {
         ExpressionTree left = Mutiplication();
 
         Token opToken = getToken();
-        while (opToken instanceof ArOpToken &&
-                (opToken.getValue().equals("+") || opToken.getValue().equals("-"))) {
-            match(ArOpToken.class,opToken.getValue());
+        while (opToken instanceof ArOpToken && (opToken.getValue().equals("+") || opToken.getValue().equals("-"))) {
+            match(ArOpToken.class, opToken.getValue());
             ExpressionTree right = Mutiplication();
             left = new BiTokenOperatorTree(opToken, left, right);
             opToken = getToken();
@@ -232,8 +232,7 @@ public class RecursiveDescent {
         match(ArOpToken.class, getToken().getValue());
         ExpressionTree left = Expression();
         Token opToken = getToken();
-        if (opToken instanceof ArOpToken &&
-                (opToken.getValue().equals("+") || opToken.getValue().equals("-"))) {
+        if (opToken instanceof ArOpToken && (opToken.getValue().equals("+") || opToken.getValue().equals("-"))) {
             ExpressionTree right = AdditionPlus();
             return new BiTokenOperatorTree(opToken, left, right);
         }
@@ -243,12 +242,11 @@ public class RecursiveDescent {
     static ExpressionTree Mutiplication() throws RecursiveDescentException {
         ExpressionTree left = TokenUnit();
         Token opToken = getToken();
-        while (opToken instanceof ArOpToken &&
-                (opToken.getValue().equals("*") || opToken.getValue().equals("/"))) {
-            match(ArOpToken.class,opToken.getValue());
+        while (opToken instanceof ArOpToken && (opToken.getValue().equals("*") || opToken.getValue().equals("/"))) {
+            match(ArOpToken.class, opToken.getValue());
             ExpressionTree right = TokenUnit();
-            left =  new BiTokenOperatorTree(opToken, left, right);
-            opToken=getToken();
+            left = new BiTokenOperatorTree(opToken, left, right);
+            opToken = getToken();
         }
         return left;
     }
@@ -257,8 +255,7 @@ public class RecursiveDescent {
         match(ArOpToken.class, getToken().getValue());
         ExpressionTree left = Expression();
         Token opToken = getToken();
-        if (opToken instanceof ArOpToken &&
-                (opToken.getValue().equals("*") || opToken.getValue().equals("/"))) {
+        if (opToken instanceof ArOpToken && (opToken.getValue().equals("*") || opToken.getValue().equals("/"))) {
             ExpressionTree right = MutiplicationPlus();
             return new BiTokenOperatorTree(opToken, left, right);
         }
@@ -302,7 +299,8 @@ public class RecursiveDescent {
             if (match(ParanToken.class, "[")) {
                 ExpressionTree index = Expression();
                 if (!match(ParanToken.class, "]")) {
-                    throw new RecursiveDescentException(getToken().getLineNumber(), getToken().getRowNumber(), "此处应该出现\"]\"");
+                    throw new RecursiveDescentException(getToken().getLineNumber(), getToken().getRowNumber(),
+                            "此处应该出现\"]\"");
                 }
                 return new IdentifierTree((IdentifierToken) identifier, index);
             } else {
@@ -327,8 +325,9 @@ public class RecursiveDescent {
     }
 
     static Token getToken() {
+        Token last = tokens.get(tokens.size() - 1);
         if (currTokens >= tokens.size())
-            return new EndToken();
+            return new EndToken("EOF", last.getLineNumber(), last.getRowNumber());
         return tokens.get(currTokens);
     }
 }

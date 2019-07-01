@@ -1,0 +1,13 @@
+{
+    "configurations": [
+
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - CLI",
+            "request": "launch",
+            "mainClass": "com.compilerExp.CLI",
+            "projectName": "SIJ_f1017b50",
+            "console": "externalTerminal"
+        }
+    ]
+}
