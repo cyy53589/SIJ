@@ -4,7 +4,7 @@
 package com.compilerExp.Token;
 
 /**
- * 复制运算符操作符
+ * 赋值运算符操作符
  *
  * @author ChenYuyang
  * @version 1.0
