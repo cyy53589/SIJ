@@ -1,18 +1,7 @@
-- [SIJ](#SIJ)
-  - [1. SIJ是什么？](#1-SIJ%E6%98%AF%E4%BB%80%E4%B9%88)
-  - [2. 我是怎么实现的？](#2-%E6%88%91%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84)
-    - [2.1 词法分析器(Lexer) : 使用Lexer解析代码得到连串的Token](#21-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8Lexer--%E4%BD%BF%E7%94%A8Lexer%E8%A7%A3%E6%9E%90%E4%BB%A3%E7%A0%81%E5%BE%97%E5%88%B0%E8%BF%9E%E4%B8%B2%E7%9A%84Token)
-      - [2.1.1 怎么实现一个Lexer](#211-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AALexer)
-    - [2.2 语法分析器: 从Lexer接受Token序列，分析出语法树](#22-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8-%E4%BB%8ELexer%E6%8E%A5%E5%8F%97Token%E5%BA%8F%E5%88%97%E5%88%86%E6%9E%90%E5%87%BA%E8%AF%AD%E6%B3%95%E6%A0%91)
-      - [2.2.1 分析方法](#221-%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95)
-      - [2.2.2 语法树](#222-%E8%AF%AD%E6%B3%95%E6%A0%91)
-    - [2.3 "运行"语法树](#23-%22%E8%BF%90%E8%A1%8C%22%E8%AF%AD%E6%B3%95%E6%A0%91)
-  - [4.我该怎么运行?](#4%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E8%BF%90%E8%A1%8C)
-    - [4.1 通过Jar包](#41-%E9%80%9A%E8%BF%87Jar%E5%8C%85)
-    - [4.2 编译代码](#42-%E7%BC%96%E8%AF%91%E4%BB%A3%E7%A0%81)
-  - [5. 运行截图](#5-%E8%BF%90%E8%A1%8C%E6%88%AA%E5%9B%BE)
-# SIJ
-## 1. SIJ是什么？
+# SIJ是什么？
+<div align="center">
+<img width="300" height="300" src="docs/images/语法树示例.png" />
+</div>
 一个用Java实现的、简单明了的解释器  
 SIJ是Simple Interpreter implemented by Java(缩写)
 特点
@@ -21,6 +10,25 @@ SIJ是Simple Interpreter implemented by Java(缩写)
 - 编译、运行错误下户线下划线提示 -> debug简单明了
 - 模块化 -> 看起来简单明了
 
+# 目录
+- [SIJ是什么？](#SIJ%E6%98%AF%E4%BB%80%E4%B9%88)
+- [目录](#%E7%9B%AE%E5%BD%95)
+- [SIJ](#SIJ)
+  - [2. 我是怎么实现的？](#2-%E6%88%91%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84)
+    - [2.1 词法分析器(Lexer) : 使用Lexer解析代码得到连串的Token](#21-%E8%AF%8D%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8Lexer--%E4%BD%BF%E7%94%A8Lexer%E8%A7%A3%E6%9E%90%E4%BB%A3%E7%A0%81%E5%BE%97%E5%88%B0%E8%BF%9E%E4%B8%B2%E7%9A%84Token)
+      - [2.1.1 怎么实现一个Lexer](#211-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AALexer)
+    - [2.2 语法分析器: 从Lexer接受Token序列，分析出语法树](#22-%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8-%E4%BB%8ELexer%E6%8E%A5%E5%8F%97Token%E5%BA%8F%E5%88%97%E5%88%86%E6%9E%90%E5%87%BA%E8%AF%AD%E6%B3%95%E6%A0%91)
+      - [2.2.1 分析方法](#221-%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%95)
+      - [2.2.2 语法树](#222-%E8%AF%AD%E6%B3%95%E6%A0%91)
+    - [2.3 "运行"语法树](#23-%22%E8%BF%90%E8%A1%8C%22%E8%AF%AD%E6%B3%95%E6%A0%91)
+    - [2.4 语法树可视化](#24-%E8%AF%AD%E6%B3%95%E6%A0%91%E5%8F%AF%E8%A7%86%E5%8C%96)
+  - [4.我该怎么运行?](#4%E6%88%91%E8%AF%A5%E6%80%8E%E4%B9%88%E8%BF%90%E8%A1%8C)
+    - [4.1 通过Jar包](#41-%E9%80%9A%E8%BF%87Jar%E5%8C%85)
+    - [4.2 编译代码](#42-%E7%BC%96%E8%AF%91%E4%BB%A3%E7%A0%81)
+  - [5. 运行截图](#5-%E8%BF%90%E8%A1%8C%E6%88%AA%E5%9B%BE)
+  - [6. ToDo:](#6-ToDo)
+
+# SIJ
 ## 2. 我是怎么实现的？
 通过例子看看SIJ的实现原理
 假设我们有代码
@@ -124,7 +132,34 @@ void exec(Env env);
 它会执行相应的代码，其中Env是运行环境，提供变量存储、访问、修改等功能（以后版本中会实现函数功能，那个时候Env还有储存函数帧的动能）
 具体请看文件夹[src/com/compilerExp/SyntaxTree](https://github.com/cyy5358/SIJ/tree/master/src/com/compilerExp/SyntaxTree)下的所有.java代码
 
+### 2.4 语法树可视化
+仅提供API层次的功能。通过语法树生成的dot文件，可以使用GraphVIZ可视化语法树
 
+API使用例子
+```java 
+    public String getDotCode(Tree root){
+        GraphDrawer drawer = new GraphDrawer();
+        String rootVe = drawer.genVertice();
+        drawer.addVertice(rootVe);
+        root.putIntoGraphviz(drawer,rootVe);
+        return drawer.getDotCode();
+    }
+    public drawTree(String dot,Tree root){
+        OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream("tree.dot"));
+        out.write(getDotCode(root));
+        out.clsoe();
+        try {
+            if (Runtime.getRuntime().
+                exec(String.format("graphVIZ/dot.exe strategy/%s.dot -Tpng -o strategy/%s.png", i.getStrategyName(), i.getStrategyName())).
+                waitFor() != 0) {
+                System.out.println(String.format("%s 写出错误", i.getStrategyName()));
+            }
+        } catch (Exception e) {
+            // do something ... 
+        }
+    }
+```
+运行情况请看下面截图
 
 ## 4.我该怎么运行?
 可以下载jar包直接运行，或者编译源代码运行
@@ -152,14 +187,22 @@ void exec(Env env);
     java -classpath out com.compilerExp.CLI
     ```
 ## 5. 运行截图
-每个语句都会输出一个数字，该数字代表着最后一次访问变量的值
-1. 变量定义  
+每个语句都会输出一个数字，该数字代表着最后一次访问变量的值  
+1. 语法树可视化  
+<div align="center">
+<img width="300" height="300" src="docs/images/语法树示例.png" ></img></div>
+2. 变量定义  
 ![变量定义](docs/images/varDef.png)
-2. 表达式  
+3. 表达式  
 ![表达式](docs/images/expression.png)
-3. if循环  
+4. if循环  
 ![if](docs/images/ifelse.png)
-4. for循环  
+5. for循环  
 ![for](docs/images/for.png)
-5. while循环  
+6. while循环  
 ![while](docs/images/while.png)
+
+## 6. ToDo:
+- [x] 代码可视化：只是在代码层面提供了接口
+- [] 函数
+- [] 添加Double,String等类型
