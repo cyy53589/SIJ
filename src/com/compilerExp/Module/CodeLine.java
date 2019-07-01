@@ -46,14 +46,16 @@ public class CodeLine {
      * 编译策略
      * @return 是否正常
      */
-    public boolean compileAndRun(TreeRunEnv env) throws Exception{
+    public boolean compileAndRun(TreeRunEnv env){
         try {
             ArrayList<Token> tokenArrayList = lexer.analyse(contentInStr,0);
             root = RecursiveDescent.run(tokenArrayList);
             run(env);
         }catch (CompilerException e){
-            errorLine=content.get(e.getErrorLine());
+            //errorLine=content.get(e.getErrorLine());
             errorMsg=getErrorWavyLine(e.getErrorRow()+1)+": "+e.getMessage();
+        }catch (Exception e){
+            errorMsg= e.getMessage();
         }
         return root!=null;
     }

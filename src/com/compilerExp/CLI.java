@@ -1,34 +1,31 @@
 package com.compilerExp;
 
 import com.compilerExp.Module.CodeError;
-import com.compilerExp.component.ConfrontPlatform;
+import com.compilerExp.Module.CodeLine;
+import com.compilerExp.TreeRuntimeEnv.TreeRunEnv;
 
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 public class CLI  {
     /**
-     * GUI入口
      *
-     * @param args --debug : debug模式,非常慢
      */
     public static void main(String[] args) {
-        if (args.length >= 0) {
-            for (String i : args) {
-                switch (i) {
-                    case "--debug":
-                        debugModel = true;
-                        System.out.println("输出伪代码模式启动");
-                        break;
-                    case "--SynTree":
-                        writeOutSynTreeModel = true;
-                        System.out.println("输出图模式启动");
-                        break;
-                }
+        Scanner sc = new Scanner(System.in);
+        TreeRunEnv env = new TreeRunEnv();
+        while(sc.hasNextLine()){
+            CodeLine c = new CodeLine(sc.nextLine());
+            if(c.compileAndRun(env)){
+                System.out.println(env.getLastOutput());
             }
+            else{
+                System.out.println(c.getLastError());
+            }
+
         }
-        launch(args);
     }
 
 

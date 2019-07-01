@@ -179,7 +179,7 @@ public class TreeRunEnv {
         if(index<0 || index>=arrayList.size())
             throw new SynTreeRuntimeException(tokenResulting.getLineNumber(),tokenResulting.getRowNumber(),"数组越界");
     }
-    String getLastOutput(){
+    public String getLastOutput(){
         String forRet = lastOutput;
         lastOutput="";
         return forRet;
